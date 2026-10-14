@@ -78,5 +78,7 @@ export async function api<T>(
 }
 
 export function apiOrigin() {
+    if (typeof window === "undefined")
+        return (process.env.API_INTERNAL_URL || API_URL).replace(/\/$/, "");
     return API_URL;
 }

@@ -58,6 +58,18 @@ pnpm build:frontend
 pnpm test:backend
 ```
 
+## Docker Compose
+
+Run the frontend, API, and a persistent single-node MongoDB replica set with:
+
+```sh
+docker compose up --build
+```
+
+Open `http://localhost:3000`; the API health endpoint is at `http://localhost:4000/health`. Compose initializes MongoDB as replica set `rs0`, which is required for payout transactions. MongoDB stays on the internal Compose network, and its data is kept in the `mongo-data` volume. Use `docker compose down` to stop the app without deleting database data; `docker compose down -v` removes it.
+
+The Compose defaults are for local development only. Before exposing the app beyond localhost, set distinct random `ACCESS_TOKEN_SECRET` and `REFRESH_TOKEN_SECRET` values in the shell or a root `.env` file, and configure the frontend origin, cookie domain, TLS, and public API URL for your domain. `NEXT_PUBLIC_API_URL` is embedded in the frontend image at build time; rebuild the frontend after changing it. `API_INTERNAL_URL` is used only by the Next.js server to reach the API inside Compose.
+
 The backend validates its required configuration at startup. Never commit `.env` files or put server secrets in `NEXT_PUBLIC_*` variables. The frontend’s only public setting is `NEXT_PUBLIC_API_URL`.
 
 ### MongoDB transactions
