@@ -1,0 +1,5 @@
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  mongodb-memory-server: false
+  unrs-resolver: false
